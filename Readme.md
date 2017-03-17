@@ -1,18 +1,28 @@
 docker image for pgbouncer based off of ubuntu:14.04
 
-To pull this image: docker pull mbentley/ubuntu-pgbouncer
+To pull this image: docker pull unicolet/ubuntu-pgbouncer
 
-Example usage: docker run -i -t -d -p 6432:6432 --link postgres:pg mbentley/ubuntu-pgbouncer
+Example usage:
 
-This requires a link (named pg) to a postgres container or manually configured environment variables as follows:
+```sh
+docker run -it -rm --net=host -e PG_PORT_5432_TCP_ADDR=1.2.3.4 -e PG_PORT_5432_TCP_PORT=5432 -e PG_ENV_POSTGRESQL_USER=user -e PG_ENV_POSTGRESQL_PASS=secret  unicolet/pgbouncer
+```
 
-PG_PORT_5432_TCP_ADDR (default: )
+pgbouncer can then be accessed locally, for example at `localhost:6432`.
 
-PG_PORT_5432_TCP_PORT (default: )
+This image to work requires a link (named pg) to a postgres container or manually configured environment variables as follows:
 
-PG_ENV_POSTGRESQL_USER (default: )
+**Mandatory**
 
-PG_ENV_POSTGRESQL_PASS (default: )
+PG_PORT_5432_TCP_ADDR
+
+PG_PORT_5432_TCP_PORT
+
+PG_ENV_POSTGRESQL_USER
+
+PG_ENV_POSTGRESQL_PASS
+
+**Optional**
 
 PG_ENV_POSTGRESQL_MAX_CLIENT_CONN (default: 10000)
 
@@ -23,5 +33,3 @@ PG_ENV_POSTGRESQL_SERVER_IDLE_TIMEOUT (default: 240)
 PG_POOL_MODE (default: session)
 
 PG_LOG_VERBOSE (default: 0)
-
-Note: I would suggest using the mbentley/ubuntu-postgres9.3 image with this as it includes the above environment variables.
